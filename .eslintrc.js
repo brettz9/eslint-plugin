@@ -5,10 +5,19 @@ module.exports = {
   env: {
     es6: true
   },
+  overrides: [
+    {
+      files: 'tests/**',
+      env: {mocha: true}
+    }
+  ],
+  globals: {
+    __dirname: 'readonly',
+    module: 'readonly',
+    require: 'readonly'
+  },
   extends: [
     'eslint:recommended',
-    './lib/configs/+mocha',
-    './lib/configs/+node',
     './lib/configs/es2015'
   ],
   rules: {
