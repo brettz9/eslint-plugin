@@ -18,7 +18,7 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    './lib/configs/es2015'
+    './lib/configs/es6'
   ],
   rules: {
     indent: ['error', 2],
