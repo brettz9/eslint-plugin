@@ -16,7 +16,7 @@
     "coverage": "opener coverage/lcov-report/index.html",
     "lint": "eslint .",
     "test": "npm run --silent lint && nyc mocha \"tests/lib/**/*.js\" --reporter dot",
-    "update": "node scripts/generate-configs && node scripts/generate-rules",
+    "update": "node scripts/generate-rules",
     "preversion": "run-s clean update test",
     "version": "eslint lib/rules --fix && git add lib",
     "postversion": "git push && git push --tags",
