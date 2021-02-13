@@ -7,7 +7,7 @@
 const { Linter } = require('eslint')
 const {
   ConfigArrayFactory,
-} = require('@eslint/eslintrc/config-array-factory')
+} = require('@eslint/eslintrc/lib/config-array-factory')
 const Validator = require('eslint/lib/shared/config-validator')
 const { rules: PluginRulesIndex } = require('../../../')
 

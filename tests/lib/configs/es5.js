@@ -18,7 +18,7 @@ function isES6Rule(ruleId) {
   const def = Rules.getRuleDefinition(ruleId)
   const version = def && def.meta && def.meta.docs && def.meta.docs.version
 
-  return version === 'es2015'
+  return version === 'es6'
 }
 
 describe('\'es5.js\'', () => {

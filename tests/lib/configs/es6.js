@@ -18,21 +18,21 @@ function isES6Rule(ruleId) {
   const def = Rules.getRuleDefinition(ruleId)
   const version = def && def.meta && def.meta.docs && def.meta.docs.version
 
-  return version === 'es2015'
+  return version === 'es6'
 }
 
-describe('\'es2015.js\'', () => {
-  const config = require('../../../lib/configs/es2015')
-  const configuredRules = Rules.getRulesOfConfig(config, 'es2015')
+describe('\'es6.js\'', () => {
+  const config = require('../../../lib/configs/es6')
+  const configuredRules = Rules.getRulesOfConfig(config, 'es6')
   const existingRules = Rules.getPluginRuleNames('mysticatea')
 
   it('should be a valid config.', () => {
-    Rules.validateConfig(config, 'es2015.js')
+    Rules.validateConfig(config, 'es6.js')
   })
 
   for (const ruleId of existingRules) {
     if (isES6Rule(ruleId)) {
-      it(`should include ES2015 rule '${ruleId}'.`, () => {
+      it(`should include ES6 rule '${ruleId}'.`, () => {
         assert(ruleId in configuredRules)
       })
     }
