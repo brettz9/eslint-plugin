@@ -2,3 +2,8 @@ docs
 scripts
 tests
 .ncurc.js
+.nycrc.json
+.nyc_output
+.github
+pnpm-lock.yaml
+coverage
