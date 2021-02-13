@@ -8,6 +8,7 @@ module.exports = {
   overrides: [
     {
       files: 'tests/**',
+      globals: {expect: true},
       env: {mocha: true}
     }
   ],

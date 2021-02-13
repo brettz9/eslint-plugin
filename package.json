@@ -16,7 +16,7 @@
     "clean": "rimraf .nyc_output coverage",
     "coverage": "opener coverage/lcov-report/index.html",
     "lint": "eslint .",
-    "mocha": "mocha \"tests/lib/**/*.js\"",
+    "mocha": "mocha --require chai/register-expect \"tests/lib/**/*.js\"",
     "nyc": "nyc pnpm run mocha",
     "test": "pnpm run --silent lint && pnpm run nyc",
     "update": "node scripts/generate-rules",
@@ -48,6 +48,7 @@
   "devDependencies": {
     "@brettz9/eslint-plugin": "file:",
     "@eslint/eslintrc": "^0.3.0",
+    "chai": "^4.3.0",
     "eslint": "^7.20.0",
     "mocha": "^8.3.0",
     "npm-run-all": "^4.1.5",

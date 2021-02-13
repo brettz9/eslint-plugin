@@ -8,8 +8,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const RuleTester = require('eslint').RuleTester
-const rule = require('../../../lib/rules/no-useless-rest-spread')
+const {RuleTester, SourceCode} = require('eslint');
+const espree = require('espree');
+const rule = require('../../../lib/rules/no-useless-rest-spread');
 
 //------------------------------------------------------------------------------
 // Tests
@@ -19,7 +20,35 @@ const ruleTester = new RuleTester({
   parserOptions: {
     ecmaVersion: 2018,
   },
-})
+});
+
+function simulateOldParser () {
+  const text = 'function foo(a, ...[,]) {}';
+  const ast = espree.parse(text, {
+    ecmaVersion: 2018, tokens: true, loc: true, range: true, comment: true
+  });
+
+  const rest = ast.body[0].params[1];
+  rest.parent = ast.body[0];
+
+  // Simulate old type
+  rest.type = 'RestProperty'
+
+  const results = {};
+  rule.create({
+    report ({data: {type1, type2}}) {
+      results.type1 = type1;
+      results.type2 = type2;
+    },
+    getSourceCode () {
+      return new SourceCode({ast, text});
+    }
+  }).RestProperty(rest);
+
+  expect(results.type1).to.equal('rest');
+  expect(results.type2).to.equal('parameter');
+}
+simulateOldParser();
 
 ruleTester.run('no-useless-rest-spread', rule, {
   valid: [
@@ -99,6 +128,11 @@ ruleTester.run('no-useless-rest-spread', rule, {
     {
       code: 'foo(...a, ...[])',
       output: 'foo(...a)',
+      errors: ['Redundant spread element.'],
+    },
+    {
+      code: 'foo(...[])',
+      output: 'foo()',
       errors: ['Redundant spread element.'],
     },
     {

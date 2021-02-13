@@ -29,6 +29,7 @@ new RuleTester().run('block-scoped-var', rule, {
     '(function a() { var a; })();',
     { code: 'class a { foo() { var a; } }', env: { es6: true } },
     { code: '(class a { foo() { var a; } })();', env: { es6: true } },
+    { code: 'import a from "abc";', env: { es6: true }, parserOptions: {sourceType: 'module'}},
   ],
   invalid: [
     {
