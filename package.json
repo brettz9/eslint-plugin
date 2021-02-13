@@ -24,10 +24,7 @@
     "postversion": "git push && git push --tags",
     "watch": "npm run mocha -- --watch --growl"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/brettz9/eslint-plugin.git"
-  },
+  "repository": "https://github.com/brettz9/eslint-plugin",
   "keywords": [
     "eslint",
     "eslintplugin",
