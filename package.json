@@ -22,7 +22,7 @@
     "preversion": "run-s clean update test",
     "version": "eslint lib/rules --fix && git add lib",
     "postversion": "git push && git push --tags",
-    "watch": "mocha \"tests/lib/**/*.js\" --reporter dot --watch --growl"
+    "watch": "npm run mocha -- --watch --growl"
   },
   "repository": {
     "type": "git",
