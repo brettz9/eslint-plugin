@@ -20,12 +20,12 @@ Add to your ESLint configuration: <https://eslint.org/docs/user-guide/configurin
 
 ### Configs
 
-- `plugin:@brettz9/core/es5` - Contains configuration of the project's rules
+- `plugin:@brettz9/es5` - Contains configuration of the project's rules
     suitable for ES5 (disabling arrow functions, etc.).
-- `plugin:@brettz9/core/es6` - Contains configuration suitable for ES2015
+- `plugin:@brettz9/es6` - Contains configuration suitable for ES2015
     and above. For setting ES6+ globals, you will need to set `env`
     [accordingly](https://eslint.org/docs/user-guide/configuring/language-options#specifying-environments).
-- `plugin:@brettz9/core/es2015` - Alias for `es6` config.
+- `plugin:@brettz9/es2015` - Alias for `es6` config.
 
 ### Rules
 

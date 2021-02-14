@@ -2,7 +2,9 @@
 
 ## 1.0.2
 
-- Drop inclusion of `block-scoped-var` in ES5 config
+- Fix: Point `meta.docs.url` to own fork
+- Set `@brettz9/block-scoped-var` to `"off"` in ES5 config (in ESLint core)
+- Set `@brettz9/arrow-parens` to `"off"` in ES6 config (in ESLint core)
 
 ## 1.0.1
 

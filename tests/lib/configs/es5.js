@@ -24,7 +24,7 @@ function isES6Rule(ruleId) {
 describe('\'es5.js\'', () => {
   const config = require('../../../lib/configs/es5')
   const configuredRules = Rules.getRulesOfConfig(config, 'es5')
-  const existingRules = Rules.getPluginRuleNames('mysticatea')
+  const existingRules = Rules.getPluginRuleNames('brettz9')
 
   it('should be a valid config.', () => {
     Rules.validateConfig(config, 'es5.js')

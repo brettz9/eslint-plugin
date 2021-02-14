@@ -88,7 +88,7 @@ module.exports = {
   getPluginRuleNames(pluginName) {
     return Object.keys(PluginRulesIndex)
       .filter(ruleId =>
-        pluginName === 'mysticatea'
+        pluginName === 'brettz9'
           ? !ruleId.includes('/')
           : ruleId.startsWith(`${pluginName}/`)
       )
