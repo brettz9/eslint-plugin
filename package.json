@@ -1,6 +1,6 @@
 {
   "name": "@brettz9/eslint-plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Additional ESLint rules.",
   "author": "Brett Zamir",
   "contributors": [
@@ -12,7 +12,6 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "preinstall": "node --eval \"!process.env.npm_config_user_agent.startsWith('pnpm/')&&(console.log('Use \\`pnpm install\\` to install dependencies in this repository')||true)&&process.exit(1)\"",
     "clean": "rimraf .nyc_output coverage",
     "coverage": "opener coverage/lcov-report/index.html",
     "lint": "eslint .",

@@ -1,5 +1,9 @@
 # CHANGES for `@brettz9/eslint-plugin`
 
+## 1.0.3
+
+- Avoid `postinstall` script which is problematic for non-pnpm dependents
+
 ## 1.0.2
 
 - Fix: Point `meta.docs.url` to own fork
