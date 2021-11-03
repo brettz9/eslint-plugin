@@ -6,9 +6,9 @@
 
 const { Linter } = require('eslint')
 const {
-  ConfigArrayFactory,
-} = require('@eslint/eslintrc/lib/config-array-factory')
-const Validator = require('eslint/lib/shared/config-validator')
+  Legacy: {ConfigArrayFactory},
+} = require('@eslint/eslintrc')
+const Validator = require('../../../node_modules/eslint/lib/shared/config-validator.js')
 const { rules: PluginRulesIndex } = require('../../../')
 
 const coreRules = new Linter().getRules()
@@ -26,7 +26,7 @@ const deprecatedRuleNames = new Set(
     .map(([ruleId]) => ruleId)
 )
 const removedRuleNames = new Set(
-  Object.keys(require('eslint/conf/replacements.json').rules)
+  Object.keys(require('../../../node_modules/eslint/conf/replacements.json').rules)
 )
 
 const configFactory = new ConfigArrayFactory()

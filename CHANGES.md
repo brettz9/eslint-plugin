@@ -1,5 +1,9 @@
 # CHANGES for `@brettz9/eslint-plugin`
 
+## 1.0.4
+
+- npm: Update devDeps.
+
 ## 1.0.3
 
 - Avoid `postinstall` script which is problematic for non-pnpm dependents
