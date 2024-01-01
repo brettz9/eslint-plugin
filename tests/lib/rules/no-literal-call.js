@@ -2,14 +2,14 @@
  * @fileoverview Tests for no-literal-call rule.
  * @author Toru Nagashima
  */
-'use strict'
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-const RuleTester = require('eslint').RuleTester
-const rule = require('../../../lib/rules/no-literal-call')
+import {RuleTester} from 'eslint'
+import globals from 'globals';
+import rule from '../../../lib/rules/no-literal-call.js'
 
 //------------------------------------------------------------------------------
 // Tests
@@ -18,21 +18,27 @@ const rule = require('../../../lib/rules/no-literal-call')
 const ruleTester = new RuleTester()
 
 ruleTester.run('no-literal-call', rule, {
+  /**
+   * @type {import('./types.js').FlatValidTestCases}
+   */
   valid: [
     'foo();',
     'obj.foo();',
     '(function() {})();',
-    { code: '(() => 0)();', env: { es6: true } },
+    { code: '(() => 0)();', languageOptions: { globals: globals.es2015 }, },
     'new foo();',
     'new obj.foo();',
     'new (function() {})();',
-    { code: 'new (class {})();', env: { es6: true } },
-    { code: 'new (() => 0)();', env: { es6: true } },
-    { code: 'foo``;', env: { es6: true } },
-    { code: 'obj.foo``;', env: { es6: true } },
-    { code: '(function() {})``;', env: { es6: true } },
-    { code: '(() => 0)``;', env: { es6: true } },
+    { code: 'new (class {})();', languageOptions: { globals: globals.es2015 }, },
+    { code: 'new (() => 0)();', languageOptions: { globals: globals.es2015 }, },
+    { code: 'foo``;', languageOptions: { globals: globals.es2015 }, },
+    { code: 'obj.foo``;', languageOptions: { globals: globals.es2015 }, },
+    { code: '(function() {})``;', languageOptions: { globals: globals.es2015 }, },
+    { code: '(() => 0)``;', languageOptions: { globals: globals.es2015 }, },
   ],
+  /**
+   * @type {import('./types.js').FlatInvalidTestCases}
+   */
   invalid: [
     { code: 'true();', errors: ['This is not a function.'] },
     { code: 'false();', errors: ['This is not a function.'] },
@@ -44,12 +50,12 @@ ruleTester.run('no-literal-call', rule, {
     { code: '({foo: 0})();', errors: ['This is not a function.'] },
     {
       code: '`hello`();',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
     {
       code: '(class A {})();',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
     { code: 'new true();', errors: ['This is not a function.'] },
@@ -62,57 +68,57 @@ ruleTester.run('no-literal-call', rule, {
     { code: 'new ({foo: 0})();', errors: ['This is not a function.'] },
     {
       code: 'new `hello`();',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
     {
       code: 'true``;',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
     {
       code: 'false``;',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
     {
       code: 'null``;',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
     {
       code: '100``;',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
     {
       code: '"hello"``;',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
     {
       code: '/abc/``;',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
     {
       code: '[1,2,3]``;',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
     {
       code: '({foo: 0})``;',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
     {
       code: '`hello```;',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
     {
       code: '(class A {})``;',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: ['This is not a function.'],
     },
   ],

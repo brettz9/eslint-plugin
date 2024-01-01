@@ -3,14 +3,14 @@
  * @copyright 2016 Toru Nagashima. All rights reserved.
  * See LICENSE file in root directory for full license.
  */
-'use strict'
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-const RuleTester = require('eslint').RuleTester
-const rule = require('../../../lib/rules/no-instanceof-wrapper')
+import {RuleTester} from 'eslint'
+import globals from 'globals';
+import rule from '../../../lib/rules/no-instanceof-wrapper.js'
 
 //------------------------------------------------------------------------------
 // Tests
@@ -19,13 +19,16 @@ const rule = require('../../../lib/rules/no-instanceof-wrapper')
 const tester = new RuleTester()
 
 tester.run('no-instanceof-wrapper', rule, {
+  /**
+   * @type {import('./types.js').FlatValidTestCases}
+   */
   valid: [
     'typeof x === "boolean"',
     'typeof x === "number"',
     'typeof x === "string"',
     'typeof x === "object"',
     'typeof x === "function"',
-    { code: 'typeof x === "symbol"', env: { es6: true } },
+    { code: 'typeof x === "symbol"', languageOptions: { globals: globals.es2015 }, },
     'function foo(Boolean) { x instanceof Boolean }',
     'function foo(Number) { x instanceof Number }',
     'function foo(String) { x instanceof String }',
@@ -33,10 +36,13 @@ tester.run('no-instanceof-wrapper', rule, {
     'function foo(Function) { x instanceof Function }',
     {
       code: 'function foo(Symbol) { x instanceof Symbol }',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
     },
     'Boolean',
   ],
+  /**
+   * @type {import('./types.js').FlatInvalidTestCases}
+   */
   invalid: [
     {
       code: 'x instanceof Boolean',
@@ -76,7 +82,7 @@ tester.run('no-instanceof-wrapper', rule, {
     {
       code: 'x instanceof Symbol',
       output: 'typeof x === "symbol"',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: [
         'Unexpected \'instanceof\' operator. Use \'typeof x === "symbol"\' instead.',
       ],

@@ -3,11 +3,14 @@
  * @copyright 2015 Toru Nagashima. All rights reserved.
  * See LICENSE file in root directory for full license.
  */
-'use strict'
 
-const RuleTester = require('eslint').RuleTester
-const rule = require('../../../lib/rules/block-scoped-var')
+import {RuleTester} from 'eslint'
+import globals from 'globals';
+import rule from '../../../lib/rules/block-scoped-var.js'
 new RuleTester().run('block-scoped-var', rule, {
+  /**
+   * @type {import('./types.js').FlatValidTestCases}
+   */
   valid: [
     '{ var a; a; } { var a; a; }',
     '{ var a; a; } { { var a; a; } { var a; { a; } } }',
@@ -16,7 +19,7 @@ new RuleTester().run('block-scoped-var', rule, {
     {
       code:
                 'for (var a = 0; a; a) { a; var b; b; } for (var a in []) { a; var b; b; } for (var a of []) { a; var b; b; }',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
     },
     'switch (0) { case 0: var a; a; case 1: a; default: a; } { var a; a; }',
     'var a = {}; module.exports = a',
@@ -27,10 +30,13 @@ new RuleTester().run('block-scoped-var', rule, {
     'var a; function foo(a) { }',
     'function a() { var a; }',
     '(function a() { var a; })();',
-    { code: 'class a { foo() { var a; } }', env: { es6: true } },
-    { code: '(class a { foo() { var a; } })();', env: { es6: true } },
-    { code: 'import a from "abc";', env: { es6: true }, parserOptions: {sourceType: 'module'}},
+    { code: 'class a { foo() { var a; } }', languageOptions: { globals: globals.es2015 }, },
+    { code: '(class a { foo() { var a; } })();', languageOptions: { globals: globals.es2015 }, },
+    { code: 'import a from "abc";', languageOptions: { globals: globals.es2015, sourceType: 'module'}},
   ],
+  /**
+   * @type {import('./types.js').FlatInvalidTestCases}
+   */
   invalid: [
     {
       code: '{ var a; a; } a;',
@@ -88,7 +94,7 @@ new RuleTester().run('block-scoped-var', rule, {
     {
       code:
                 '{ var {x: [a = 0]} = {x: [1]}; a; } { var a; ({x: [a = 0]} = {x: [1]}); }',
-      env: { es6: true },
+      languageOptions: { globals: globals.es2015 },
       errors: [
         {
           type: 'Identifier',

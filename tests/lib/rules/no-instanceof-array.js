@@ -3,14 +3,13 @@
  * @copyright 2016 Toru Nagashima. All rights reserved.
  * See LICENSE file in root directory for full license.
  */
-'use strict'
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-const RuleTester = require('eslint').RuleTester
-const rule = require('../../../lib/rules/no-instanceof-array')
+import {RuleTester} from 'eslint'
+import rule from '../../../lib/rules/no-instanceof-array.js'
 
 //------------------------------------------------------------------------------
 // Tests

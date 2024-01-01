@@ -1,5 +1,10 @@
 # CHANGES for `@brettz9/eslint-plugin`
 
+## 2.0.0
+
+- feat: native ESM/flat config
+- feat: TypeScript
+
 ## 1.0.4
 
 - npm: Update devDeps.

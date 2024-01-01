@@ -3,10 +3,10 @@
  * @copyright 2016 Toru Nagashima. All rights reserved.
  * See LICENSE file in root directory for full license.
  */
-'use strict'
 
-const assert = require('assert')
-const Rules = require('./_rules')
+import assert from 'assert'
+import Rules from './_rules.js'
+import config from '../../../lib/configs/es5.js'
 
 /**
  * Checks whether a given core rule is an ES6 rule or not.
@@ -22,12 +22,11 @@ function isES6Rule(ruleId) {
 }
 
 describe('\'es5.js\'', () => {
-  const config = require('../../../lib/configs/es5')
-  const configuredRules = Rules.getRulesOfConfig(config, 'es5')
+  const configuredRules = Rules.getRulesOfConfig(config)
   const existingRules = Rules.getPluginRuleNames('brettz9')
 
   it('should be a valid config.', () => {
-    Rules.validateConfig(config, 'es5.js')
+    Rules.validateConfig(config)
   })
 
   for (const ruleId of existingRules) {

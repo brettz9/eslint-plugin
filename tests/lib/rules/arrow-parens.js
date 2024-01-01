@@ -3,14 +3,16 @@
  * @copyright 2015 Toru Nagashima. All rights reserved.
  * See LICENSE file in root directory for full license.
  */
-'use strict'
 
-const RuleTester = require('eslint').RuleTester
-const rule = require('../../../lib/rules/arrow-parens')
-new RuleTester({ parserOptions: { ecmaVersion: 2015 } }).run(
+import {RuleTester} from 'eslint'
+import rule from '../../../lib/rules/arrow-parens.js'
+new RuleTester({ languageOptions: { ecmaVersion: 2015 } }).run(
   'arrow-parens',
   rule,
   {
+    /**
+     * @type {import('./types.js').FlatValidTestCases}
+     */
     valid: [
       'var foo = (x) => x;',
       'var foo = (x => x);',
@@ -25,41 +27,44 @@ new RuleTester({ parserOptions: { ecmaVersion: 2015 } }).run(
 
       {
         code: 'var foo = async (x) => x;',
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
       },
       {
         code: 'var foo = async (x => x);',
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
       },
       {
         code: 'foo(async () => 0);',
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
       },
       {
         code: 'foo(async (x, y) => x);',
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
       },
       {
         code: 'foo(async (x = 0) => x);',
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
       },
       {
         code: 'foo(async ([x]) => x);',
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
       },
       {
         code: 'foo(async ({x}) => x);',
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
       },
       {
         code: 'foo(x => x, async (x) => x);',
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
       },
       {
         code: 'foo(\n    async (x) => x,\n    async (x) => x\n);',
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
       },
     ],
+    /**
+     * @type {import('./types.js').FlatInvalidTestCases}
+     */
     invalid: [
       {
         code: 'var foo = x => x;',
@@ -113,7 +118,7 @@ new RuleTester({ parserOptions: { ecmaVersion: 2015 } }).run(
       {
         code: 'var foo = async x => x;',
         output: 'var foo = async (x) => x;',
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
         errors: [
           {
             column: 11,
@@ -125,7 +130,7 @@ new RuleTester({ parserOptions: { ecmaVersion: 2015 } }).run(
       {
         code: 'foo(async x => x, async x => x);',
         output: 'foo(async (x) => x, async (x) => x);',
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
         errors: [
           {
             column: 5,
@@ -142,7 +147,7 @@ new RuleTester({ parserOptions: { ecmaVersion: 2015 } }).run(
       {
         code: 'foo(\n    async x => x,\n    async x => x\n);',
         output: 'foo(\n    async (x) => x,\n    async (x) => x\n);',
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
         errors: [
           {
             line: 2,

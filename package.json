@@ -1,6 +1,6 @@
 {
   "name": "@brettz9/eslint-plugin",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Additional ESLint rules.",
   "author": "Brett Zamir",
   "contributors": [
@@ -8,16 +8,21 @@
   ],
   "license": "MIT",
   "main": "index.js",
+  "type": "module",
+  "types": "./dist/index.d.ts",
   "engines": {
     "node": ">=10.0.0"
   },
   "scripts": {
+    "prepublishOnly": "pnpm build",
+    "tsc": "tsc",
     "clean": "rimraf .nyc_output coverage",
     "coverage": "opener coverage/lcov-report/index.html",
+    "build": "tsc -p tsconfig-prod.json",
     "lint": "eslint .",
-    "mocha": "mocha --require chai/register-expect \"tests/lib/**/*.js\"",
-    "nyc": "nyc pnpm run mocha",
-    "test": "pnpm run --silent lint && pnpm run nyc",
+    "mocha": "mocha \"tests/lib/**/*.js\"",
+    "c8": "c8 pnpm run mocha",
+    "test": "pnpm build && pnpm run --silent lint && pnpm run c8",
     "update": "node scripts/generate-rules",
     "preversion": "run-s clean update test",
     "version": "eslint lib/rules --fix && git add lib",
@@ -43,16 +48,23 @@
   "peerDependencies": {
     "eslint": ">=7.20.0"
   },
-  "dependencies": {},
   "devDependencies": {
     "@brettz9/eslint-plugin": "file:",
     "@eslint/eslintrc": "^1.0.3",
+    "@types/chai": "^4.3.11",
+    "@types/eslint": "^8.56.0",
+    "@types/estree": "^1.0.5",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.6",
+    "c8": "^8.0.1",
     "chai": "^4.3.4",
-    "eslint": "^8.1.0",
+    "eslint": "^9.0.0-alpha.0",
+    "espree": "^9.6.1",
+    "globals": "^13.24.0",
     "mocha": "^9.1.3",
     "npm-run-all": "^4.1.5",
-    "nyc": "^15.1.0",
     "opener": "^1.5.2",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "typescript": "^5.3.3"
   }
 }

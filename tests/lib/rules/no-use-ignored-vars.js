@@ -2,14 +2,13 @@
  * @fileoverview Tests for no-use-ignored-vars rule.
  * @author Toru Nagashima
  */
-'use strict'
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-const RuleTester = require('eslint').RuleTester
-const rule = require('../../../lib/rules/no-use-ignored-vars')
+import {RuleTester} from 'eslint'
+import rule from '../../../lib/rules/no-use-ignored-vars.js'
 
 //------------------------------------------------------------------------------
 // Tests

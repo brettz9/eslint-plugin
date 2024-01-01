@@ -3,20 +3,19 @@
  * @copyright 2016 Toru Nagashima. All rights reserved.
  * See LICENSE file in root directory for full license.
  */
-'use strict'
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-const RuleTester = require('eslint').RuleTester
-const rule = require('../../../lib/rules/no-this-in-static')
+import {RuleTester} from 'eslint'
+import rule from '../../../lib/rules/no-this-in-static.js'
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const tester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
+const tester = new RuleTester({ languageOptions: { ecmaVersion: 6 } })
 
 tester.run('no-this-in-static', rule, {
   valid: [

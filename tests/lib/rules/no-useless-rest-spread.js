@@ -2,22 +2,22 @@
  * @fileoverview Tests for no-useless-rest-spread rule.
  * @author Toru Nagashima
  */
-'use strict'
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-const {RuleTester, SourceCode} = require('eslint');
-const espree = require('espree');
-const rule = require('../../../lib/rules/no-useless-rest-spread');
+import {RuleTester, SourceCode} from 'eslint';
+import * as espree from 'espree';
+import rule from '../../../lib/rules/no-useless-rest-spread.js';
+import {expect} from 'chai';
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-  parserOptions: {
+  languageOptions: {
     ecmaVersion: 2018,
   },
 });
@@ -28,14 +28,29 @@ function simulateOldParser () {
     ecmaVersion: 2018, tokens: true, loc: true, range: true, comment: true
   });
 
-  const rest = ast.body[0].params[1];
+  const rest =
+    /**
+     * @type {import('estree').Pattern & {
+     *   parent?: import('estree').Node
+     * }}
+     */ (/** @type {import('estree').FunctionDeclaration} */ (
+      ast.body[0]
+    ).params[1]);
   rest.parent = ast.body[0];
 
-  // Simulate old type
+  // @ts-expect-error Simulate old type
   rest.type = 'RestProperty'
 
+  /**
+   * @type {{
+   *   type1?: string,
+   *   type2?: string
+   * }}
+   */
   const results = {};
-  rule.create({
+  // @ts-expect-error Ok for testing
+  const listener = rule.create({
+    // @ts-expect-error Ok
     report ({data: {type1, type2}}) {
       results.type1 = type1;
       results.type2 = type2;
@@ -43,7 +58,9 @@ function simulateOldParser () {
     getSourceCode () {
       return new SourceCode({ast, text});
     }
-  }).RestProperty(rest);
+  })
+  // @ts-expect-error Bug?
+  listener.RestProperty(rest);
 
   expect(results.type1).to.equal('rest');
   expect(results.type2).to.equal('parameter');

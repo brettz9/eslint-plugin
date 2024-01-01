@@ -2,23 +2,19 @@
  * @author Toru Nagashima <https://github.com/mysticatea>
  * See LICENSE file in root directory for full license.
  */
-'use strict'
 
-const { Linter } = require('eslint')
-const {
-  Legacy: {ConfigArrayFactory},
-} = require('@eslint/eslintrc')
-const Validator = require('../../../node_modules/eslint/lib/shared/config-validator.js')
-const { rules: PluginRulesIndex } = require('../../../')
+import {readFileSync} from 'fs';
+import index from '../../../index.js'
 
-const coreRules = new Linter().getRules()
+const { rules: PluginRulesIndex } = index;
+
 const pluginRules = new Map(
   Object.keys(PluginRulesIndex).map(key => [
     `@brettz9/${key}`,
-    PluginRulesIndex[key],
+    PluginRulesIndex[/** @type {keyof PluginRulesIndex} */ (key)],
   ])
 )
-const allRules = new Map([...coreRules, ...pluginRules])
+const allRules = new Map(pluginRules)
 
 const deprecatedRuleNames = new Set(
   Array.from(allRules)
@@ -26,26 +22,19 @@ const deprecatedRuleNames = new Set(
     .map(([ruleId]) => ruleId)
 )
 const removedRuleNames = new Set(
-  Object.keys(require('../../../node_modules/eslint/conf/replacements.json').rules)
+  Object.keys(JSON.parse(
+    readFileSync('./node_modules/eslint/conf/replacements.json', 'utf8')
+  ).rules)
 )
 
-const configFactory = new ConfigArrayFactory()
-
-module.exports = {
+export default {
   /**
-     * Validate the given config object.
-     * @param {any} config The config object to check.
-     * @param {string} source The filename of the configuration to show error messages.
-     * @returns {void}
-     */
-  validateConfig(config, source) {
-    Validator.validate(config, source, ruleId => allRules.get(ruleId))
-
-    /* istanbul ignore next */
-    for (const ruleId of [].concat(
-      Object.keys(config.rules || {}),
-      ...(config.overrides || []).map(c => Object.keys(c.rules || {}))
-    )) {
+   * Validate the given config object.
+   * @param {any} config The config object to check.
+   * @returns {void}
+   */
+  validateConfig(config) {
+    for (const ruleId of Object.keys(config.rules || {})) {
       const rule = allRules.get(ruleId)
       if (rule == null) {
         throw new Error(`The '${ruleId}' rule does not exist.`)
@@ -60,31 +49,25 @@ module.exports = {
   },
 
   /**
-     * Get the rule definition of the given ID.
-     * @param {string} ruleId The rule ID to get.
-     * @returns {object} The rule definition.
-     */
+   * Get the rule definition of the given ID.
+   * @param {string} ruleId The rule ID to get.
+   * @returns {import('eslint').Rule.RuleModule & {
+   *   meta?: {
+   *     docs?: {
+   *       version?: string
+   *     }
+   *   }
+   * }|undefined} The rule definition.
+   */
   getRuleDefinition(ruleId) {
     return allRules.get(ruleId)
   },
 
   /**
-     * Get the core rules.
-     * @returns {string[]} The core rule names.
-     */
-  getCoreRuleNames() {
-    return Array.from(coreRules.keys()).filter(
-      ruleId =>
-        !deprecatedRuleNames.has(ruleId) &&
-                !removedRuleNames.has(ruleId)
-    )
-  },
-
-  /**
-     * Get the plugin rules.
-     * @param {"node"|"ts"} pluginName The plugin name to get.
-     * @returns {object} The core rules. Keys are rule IDs and values are each rule definition.
-     */
+   * Get the plugin rules.
+   * @param {"brettz9"} pluginName The plugin name to get.
+   * @returns {string[]} The core rules. Keys are rule IDs and values are each rule definition.
+   */
   getPluginRuleNames(pluginName) {
     return Object.keys(PluginRulesIndex)
       .filter(ruleId =>
@@ -100,18 +83,22 @@ module.exports = {
       )
   },
 
-  *iterateRulesOfConfig(config, name) {
-    const filePath = require.resolve(`../../../lib/configs/${name}`)
-    for (const element of configFactory.create(config, { filePath })) {
-      if (element.rules) {
-        yield* Object.entries(element.rules)
-      }
+  /**
+   * @param {import('eslint').Linter.FlatConfig} config
+   */
+  *iterateRulesOfConfig(config) {
+    if (config.rules) {
+      yield* Object.entries(config.rules)
     }
   },
 
-  getRulesOfConfig(config, name) {
+  /**
+   * @param {import('eslint').Linter.FlatConfig} config
+   */
+  getRulesOfConfig(config) {
+    /** @type {{[key: string]: import('eslint').Linter.RuleEntry<any[]>}} */
     const rules = {}
-    for (const [key, value] of this.iterateRulesOfConfig(config, name)) {
+    for (const [key, value] of this.iterateRulesOfConfig(config)) {
       rules[key] = value
     }
     return rules

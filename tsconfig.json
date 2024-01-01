@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "lib": ["es2022"],
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "declaration": true,
+    "declarationMap": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "target": "es2017",
+    "outDir": "dist"
+  },
+  "include": [
+    "index.js",
+    "lib/**/*.js",
+    "tests/**/*.js",
+    "typings/espree.d.ts"
+  ],
+  "exclude": ["node_modules"]
+}
