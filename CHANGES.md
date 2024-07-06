@@ -1,5 +1,9 @@
 # CHANGES for `@brettz9/eslint-plugin`
 
+## 2.0.1
+
+- fix: TS
+
 ## 2.0.0
 
 - feat: native ESM/flat config
