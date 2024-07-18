@@ -1,5 +1,13 @@
 # CHANGES for `@brettz9/eslint-plugin`
 
+## 3.0.0
+
+BREAKING:
+
+Require Node ^18.18.0 || ^20.9.0 || >=21.1.0
+
+- feat: add `name` to configs
+
 ## 2.1.1
 
 - fix: revert breaking changes
