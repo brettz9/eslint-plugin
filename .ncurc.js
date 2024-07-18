@@ -5,4 +5,8 @@ module.exports = {
   //   somewhat older versions of `eslint` we still support even
   //   while our devDeps point to a more recent version
   dep: 'prod,dev,optional,bundle',
+  reject: [
+    // todo[engine:node@>=20]: Remove this and update
+    'rimraf'
+  ],
 }

@@ -99,7 +99,7 @@ export default {
     /** @type {{[key: string]: import('eslint').Linter.RuleEntry<any[]>}} */
     const rules = {}
     for (const [key, value] of this.iterateRulesOfConfig(config)) {
-      rules[key] = value
+      rules[key] = /** @type {import('eslint').Linter.RuleEntry<any[]>} */ (value)
     }
     return rules
   },
